@@ -7,5 +7,6 @@ public interface IPolygon : IVictim
 {
     event Action<Collision2D> Colided;
     int CornersCount { get; }
+    bool isDestroyed { get; }
     void Destroy();
 }

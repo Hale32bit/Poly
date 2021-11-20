@@ -36,6 +36,7 @@ public sealed class WorldCreator : MonoBehaviour, IPolygonCreator
             Vector2 position = GenerateCorrectPosition();
             int cornersCount = Random.Range(MinCornersCount, MaxCornersCount);
             CreatePolygonOfRandomType(position, cornersCount);
+
         }
 
     }

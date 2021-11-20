@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(PolygonCollider2D), typeof(Rigidbody2D))]
 public sealed class Polygon : MonoBehaviour, IPolygon, IControlablePolygon
 {
-    public const float Radius = 0.3f;
+    public const float Radius = 0.45f;
 
     public event Action CornersChanged;
     public event Action TypeChanged;
@@ -25,6 +25,8 @@ public sealed class Polygon : MonoBehaviour, IPolygon, IControlablePolygon
     public int CornersCount { get; private set; }
 
     public Rigidbody2D Rigidbody => this.GetComponent<Rigidbody2D>();
+
+    public bool isDestroyed { get; private set; }
 
     private void Awake()
     {
@@ -99,12 +101,15 @@ public sealed class Polygon : MonoBehaviour, IPolygon, IControlablePolygon
     public void Destroy()
     {
         GameObject.Destroy(this.gameObject);
+        isDestroyed = true;
+        //GameObject.Destroy(GetComponent<PolygonCollider2D>());
     }
 
     private void OnDestroy()
     {
         Destroyed?.Invoke(this);
     }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
