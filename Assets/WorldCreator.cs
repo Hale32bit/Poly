@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 
 [DisallowMultipleComponent]
+[RequireComponent(typeof(IVictimsProvider))]
 public sealed class WorldCreator : MonoBehaviour, IPolygonCreator
 {
     private const int MinCornersCount = 2;
@@ -18,13 +19,14 @@ public sealed class WorldCreator : MonoBehaviour, IPolygonCreator
 
     [SerializeField] private PolygonType[] _polygonTypes;
 
-    
-
-
     public event System.Action<IPolygon> PolygonCreated;
 
-
-
+    private void Awake()
+    {
+        var victimProvider = GetComponent<IVictimsProvider>();
+        var hunterType = _polygonTypes.First(t => t is HunterType) as HunterType;
+        hunterType.Initialize(victimProvider);
+    }
 
     public void Create()
     {
@@ -33,9 +35,6 @@ public sealed class WorldCreator : MonoBehaviour, IPolygonCreator
         {
             Vector2 position = GenerateCorrectPosition();
             int cornersCount = Random.Range(MinCornersCount, MaxCornersCount);
-
-            UnityEngine.Debug.Log(cornersCount);
-
             CreatePolygonOfRandomType(position, cornersCount);
         }
 
@@ -53,16 +52,10 @@ public sealed class WorldCreator : MonoBehaviour, IPolygonCreator
 
             isPositionCorrect =
                 Physics2D.OverlapCircle(position, Polygon.Radius) == null;
-
-            UnityEngine.Debug.Log(Physics2D.OverlapCircle(position, Polygon.Radius));
         }
 
         return position;
     }
-
-
-
-
 
     public void CreatePolygonOfRandomType(Vector2 position, int cornersCount)
     {
@@ -76,6 +69,8 @@ public sealed class WorldCreator : MonoBehaviour, IPolygonCreator
 
         float azimuth = Random.Range(0, 360);
         polygon.transform.rotation = Quaternion.Euler(0, 0, azimuth);
+
+        polygon.GetComponent<Rigidbody2D>().WakeUp();
 
         PolygonCreated?.Invoke(polygon);
     }

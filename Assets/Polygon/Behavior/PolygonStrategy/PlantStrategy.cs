@@ -7,4 +7,10 @@ public sealed class PlantStrategy : PolygonStrategy
     public PlantStrategy(IControlablePolygon polygon) : base(polygon)
     {
     }
+
+    public override void OnCollision(Collision2D collision)
+    {
+
+    }
+
 }

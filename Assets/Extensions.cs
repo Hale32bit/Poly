@@ -21,7 +21,15 @@ public static class Extensions
         }
 
         return currentIndex;
+    }
 
-               
+    public static bool IsBorder(this GameObject value)
+    {
+        return value.GetComponent<WorldBorders>() != null;
+    }
+
+    public static bool IsPolygon(this GameObject value)
+    {
+        return value.GetComponent<Polygon>() != null;
     }
 }

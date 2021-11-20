@@ -12,7 +12,7 @@ public sealed class Polygon : MonoBehaviour, IPolygon, IControlablePolygon
     public event Action CornersChanged;
     public event Action TypeChanged;
     public event Action<Collision2D> Colided;
-    public event Action Destroyed;
+    public event Action<IPolygon> Destroyed;
 
     private PolygonCollider2D _collider;
     public PolygonType Type { get; private set; }
@@ -59,11 +59,32 @@ public sealed class Polygon : MonoBehaviour, IPolygon, IControlablePolygon
 
     private void UpdateCollider()
     {
-        Vector2[] points = new Vector2[CornersCount];
-        for (int i = 0; i < CornersCount; i++)
-            points[i] = Corner(i);
+        Vector2[] points;
+
+        if (CornersCount == 2)
+            points = PrepareSpecial2CornerCollider();
+        else
+        {
+            points = new Vector2[CornersCount];
+            for (int i = 0; i < CornersCount; i++)
+                points[i] = Corner(i);
+        }
 
         _collider.points = points;
+    }
+
+    private static Vector2[] PrepareSpecial2CornerCollider()
+    {
+        Vector2[] points;
+        const float colliderThicknes = 0.01f;
+        points = new Vector2[4]
+        {
+                new Vector2(-Radius, colliderThicknes),
+                new Vector2(+Radius, colliderThicknes),
+                new Vector2(+Radius,-colliderThicknes),
+                new Vector2(-Radius,-colliderThicknes)
+        };
+        return points;
     }
 
     public Vector2 Corner(int index)
@@ -82,7 +103,7 @@ public sealed class Polygon : MonoBehaviour, IPolygon, IControlablePolygon
 
     private void OnDestroy()
     {
-        Destroyed?.Invoke();
+        Destroyed?.Invoke(this);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

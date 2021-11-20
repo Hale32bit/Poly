@@ -41,8 +41,8 @@ public sealed class World : MonoBehaviour, IPolygonDestroyer, IVictimsProvider
     }
     public IVictim GetRandomVictim()
     {
-        int number = (int)UnityEngine.Random.Range(0, _polygons.Count);
-        return _polygons.Skip(number - 1).First();
+        int number = UnityEngine.Random.Range(0, _polygons.Count);
+        return _polygons.Skip(number - 1).FirstOrDefault();
     }
 
 }

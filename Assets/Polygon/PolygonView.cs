@@ -7,22 +7,13 @@ using UnityEngine;
 [RequireComponent(typeof(Polygon), typeof(LineRenderer))]
 public sealed class PolygonView : MonoBehaviour
 {
-    private const float LineWidth = 0.1f;
-
     private Polygon _polygon;
     private LineRenderer _renderer;
 
     private void Awake()
     {
         _polygon = GetComponent<Polygon>();
-
         _renderer = GetComponent<LineRenderer>();
-
-        //_renderer = gameObject.AddComponent<LineRenderer>();
-        //_renderer.widthCurve = AnimationCurve.Constant(0, 10, LineWidth);
-        //_renderer.loop = true;
-        //_renderer.useWorldSpace = false;
-        //_renderer.startColor = Color.blue;
     }
 
     private void OnEnable()

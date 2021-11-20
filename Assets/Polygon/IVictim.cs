@@ -5,6 +5,6 @@ using UnityEngine;
 
 public interface IVictim 
 {
-    event Action Destroyed;
+    event Action<IPolygon> Destroyed;
     Rigidbody2D Rigidbody { get; }
 }

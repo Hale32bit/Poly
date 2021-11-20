@@ -29,4 +29,14 @@ public sealed class PolygonBehavior : MonoBehaviour
     {
         _strategy = _polygon.Type.InstatiateStrategy(_polygon);
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        _strategy.OnCollision(collision);
+    }
+
+    private void FixedUpdate()
+    {
+        _strategy.FixedUpdate();
+    }
 }

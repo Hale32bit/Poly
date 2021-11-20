@@ -36,12 +36,13 @@ public class WorldConfiguration : MonoBehaviour
         float summaryWeight = 0;
         for (int index = 0; index < _weightFields.Length; index++)
         {
-            Weights[index] = Convert.ToSingle(_polygonsCountField.text);
+            Weights[index] = Convert.ToSingle(_weightFields[index].text);
             summaryWeight += Weights[index];
         }
 
         for (int index = 0; index < _weightFields.Length; index++)
             Probabilities[index] = Weights[index] / summaryWeight;
+
     }
 
     private void UpdatePolygonsCount()

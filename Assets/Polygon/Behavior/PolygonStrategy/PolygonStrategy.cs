@@ -5,11 +5,16 @@ using UnityEngine;
 public abstract class PolygonStrategy 
 {
     protected readonly IControlablePolygon Polygon;
-    protected Rigidbody2D Transform;
+    protected Rigidbody2D Rigidbody;
 
     public PolygonStrategy(IControlablePolygon polygon)
     {
         Polygon = polygon;
-        Transform = Polygon.Rigidbody;
+        Rigidbody = Polygon.Rigidbody;
     }
+
+    public abstract void OnCollision(Collision2D collision);
+
+    public virtual void FixedUpdate()
+    { }
 }
